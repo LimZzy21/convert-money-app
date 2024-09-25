@@ -1,3 +1,4 @@
+'use client'
 import { z } from 'zod';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -70,9 +71,9 @@ export const FormExchange = () => {
     };
 
     return (
-        <form  className="border border-solid p-4 border-gray rounded shadow-lg">
-            <div className="flex">
-                <div className="block mb-4">
+        <form  className="border border-solid p-4 border-gray rounded shadow-lg ">
+            <div className="flex ">
+                <div className="block mb-4 md:placeholder:">
                     <label htmlFor="amount" className="block text-gray-700 mb-2">Amount</label>
                     <input
                         {...register('amount', {
@@ -81,11 +82,11 @@ export const FormExchange = () => {
                         })}
                         type="number"
                         id="amount"
-                        className="border border-gray-300 p-2 rounded w-full shadow-md"
+                        className="border border-gray-300 p-2 rounded  shadow-md "
                     />
                     {errors.amount && <div className="text-red-500">{errors.amount.message}</div>}
                 </div>
-
+                            
                 <div className="block ps-5 mb-4">
                     <label htmlFor="exchange" className="block text-gray-700 mb-2">Exchange</label>
                     <input
