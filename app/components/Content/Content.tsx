@@ -1,10 +1,22 @@
+import { useEffect } from "react"
 import Image from "next/image"
 import img from "@/app/assets/change.svg"
-``
+import useExchangeStore from "@/app/store/store"
+
+
 
 
 
 export const Content = () => {
+
+    const getData = useExchangeStore()
+
+    useEffect(() => {
+        // getData.execute()
+        getData.calculateCurrency('usd', 'uah', 5)
+    }, [])
+
+
 
 
     return (
