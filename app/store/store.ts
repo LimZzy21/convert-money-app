@@ -14,11 +14,14 @@ interface ICurrency {
     conversion_rates: {
         [key: string]: number;
     };
+
+    conversion_rate: number
+    conversion_result: number
 }
 
 interface IAction {
     execute: () => Promise<void>;
-    calculateCurrency: (from: string, to: string, amount:number) => Promise<void>
+    calculateCurrency: (from: string, to: string, amount: number, isReverse: boolean) => Promise<void>
 }
 
 const initialState: ICurrency = {
@@ -32,6 +35,8 @@ const initialState: ICurrency = {
     time_next_update_utc: '',
     base_code: '',
     conversion_rates: {},
+    conversion_rate: 0,
+    conversion_result: 0
 };
 
 const useExchangeStore = create<ICurrency & IAction>((set) => ({
@@ -40,22 +45,25 @@ const useExchangeStore = create<ICurrency & IAction>((set) => ({
         set({ ...initialState, loading: true });
         try {
             const res = await axios.get('https://v6.exchangerate-api.com/v6/4a5fdf26b664ee8f4aa8f4fa/latest/usd/')
-            set({ ...res.data, loading: false });             
+            set({ ...res.data, loading: false });
         } catch (err) {
             console.error(err);
-            set({ loading: false }); 
+            set({ loading: false });
         }
     },
-    calculateCurrency: async (from, to, amount)=>{
-        set({...initialState, loading:true})
-        try{
+    calculateCurrency: async (from, to, amount, isReverse) => {
+        set({ ...initialState, loading: true })
+        try {
+
+
             const res = await axios.get(`https://v6.exchangerate-api.com/v6/4a5fdf26b664ee8f4aa8f4fa/pair/${from}/${to}/${amount}`)
-            set({...res.data, loading:false})
+
+            set({ ...res.data, loading: false })
             console.log(res);
-            
-        }catch(err){
+
+        } catch (err) {
             console.log(err);
-            set({loading:false})
+            set({ loading: false })
         }
     }
 }));
